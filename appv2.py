@@ -73,8 +73,8 @@ selected_model = st.selectbox("Select Model", ["MobileNetV3", "ResNet34", "Shuff
 if uploaded_file:
     if selected_model == "MobileNetV3":
         model = mobilenet_v3_model
-    elif selected_model == "ResNet34":
-        model = resnet34_model
+    # elif selected_model == "ResNet34":
+    #     model = resnet34_model
     elif selected_model == "ShuffleNetV2":
         model = shufflenet_v2_model
     
