@@ -3,7 +3,10 @@ import torchvision
 import io
 import streamlit as st
 from PIL import Image
-from facedetector import FaceDetector 
+from facedetector import FaceDetector
+
+# Check if CUDA is available
+device = torch.device("cuda" if torch.cuda.is_available() else "CPU")
 
 # Load the trained model
 mobilenet_v3_model = torchvision.models.mobilenet_v3_small(num_classes=2)
