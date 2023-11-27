@@ -6,7 +6,7 @@ from PIL import Image
 from facedetector import FaceDetector
 
 # Check if CUDA is available
-device = torch.device("cuda" if torch.cuda.is_available() else "CPU")
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Load the trained model
 mobilenet_v3_model = torchvision.models.mobilenet_v3_small(num_classes=2)
