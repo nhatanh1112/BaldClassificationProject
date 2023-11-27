@@ -19,7 +19,7 @@ mobilenet_v3_model.eval()
 # resnet34_model.eval()
 
 shufflenet_v2_model = torchvision.models.shufflenet_v2_x1_0(num_classes=2)
-shufflenet_v2_model.load_state_dict(torch.load("classificationShuffleNetV2x1_0.pth", map_location=torch.device('cpu')))
+shufflenet_v2_model.load_state_dict(torch.load("classificationShuffleNetv2x1_0.pth", map_location=torch.device('cpu')))
 shufflenet_v2_model.eval()
 
 # Create an instance of FaceDetector
