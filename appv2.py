@@ -13,9 +13,9 @@ mobilenet_v3_model = torchvision.models.mobilenet_v3_small(num_classes=2)
 mobilenet_v3_model.load_state_dict(torch.load("classificationMobileNetV3v2.pth", map_location=torch.device('cpu')))
 mobilenet_v3_model.eval()
 
-resnet34_model = torchvision.models.resnet34(num_classes=2)
-resnet34_model.load_state_dict(torch.load("classificationResNet34.pth", map_location=torch.device('cpu')))
-resnet34_model.eval()
+# resnet34_model = torchvision.models.resnet34(num_classes=2)
+# resnet34_model.load_state_dict(torch.load("classificationResNet34.pth", map_location=torch.device('cpu')))
+# resnet34_model.eval()
 
 shufflenet_v2_model = torchvision.models.shufflenet_v2_x1_0(num_classes=2)
 shufflenet_v2_model.load_state_dict(torch.load("classificationShuffleNetV2x1_0.pth", map_location=torch.device('cpu')))
