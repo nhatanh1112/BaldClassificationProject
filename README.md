@@ -6,4 +6,4 @@ This is a project for AI class that creates a model to:
  - Classify whether a person is bald or not
 
 ## Screenshot
-![Image](ScreenshotDemo.png)
+![Image](ScreenshotDemo.PNG)
