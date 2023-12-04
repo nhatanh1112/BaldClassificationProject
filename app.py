@@ -13,10 +13,9 @@ mobilenet_v3_model = torchvision.models.mobilenet_v3_small(num_classes=2)
 mobilenet_v3_model.load_state_dict(torch.load("classificationMobileNetV3v2.pth", map_location=torch.device('cpu')))
 mobilenet_v3_model.eval()
 
-# Commenting out the ResNet model as you don't have the file
-# resnet34_model = torchvision.models.resnet34(num_classes=2)
-# resnet34_model.load_state_dict(torch.load("classificationResNet34.pth", map_location=torch.device('cpu')))
-# resnet34_model.eval()
+regnet_y_model = torchvision.models.regnet_y_400mf(num_classes=2)
+regnet_y_model.load_state_dict(torch.load("classificationRegNetY400mf.pth", map_location=torch.device('cpu')))
+regnet_y_model.eval()
 
 shufflenet_v2_model = torchvision.models.shufflenet_v2_x1_0(num_classes=2)
 shufflenet_v2_model.load_state_dict(torch.load("classificationShuffleNetv2x1_0.pth", map_location=torch.device('cpu')))
@@ -68,14 +67,14 @@ st.write("Upload an image to predict whether the person in the image is bald or 
 uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
 
 # Model selection dropdown
-selected_model = st.selectbox("Select Model", ["MobileNetV3", "ShuffleNetV2"])
+selected_model = st.selectbox("Select Model", ["MobileNetV3", "ShuffleNetV2", "RegNetY"])
 
 # Make prediction and display result
 if uploaded_file:
     if selected_model == "MobileNetV3":
         model = mobilenet_v3_model
-    # elif selected_model == "ResNet34":
-    #     model = resnet34_model
+    elif selected_model == "RegNetY":
+        model = regnet_y_model
     elif selected_model == "ShuffleNetV2":
         model = shufflenet_v2_model
     
