@@ -1,4 +1,4 @@
-# Makeup-removal
+# Bald Classification
 Streamlit Deploy: [Streamlit](https://baldclassification.streamlit.app/)
 
 ## Overview
