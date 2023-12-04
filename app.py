@@ -8,7 +8,7 @@ from facedetector import FaceDetector
 # Check if CUDA is available
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-# Load the trained model
+# Load the trained models
 mobilenet_v3_model = torchvision.models.mobilenet_v3_small(num_classes=2)
 mobilenet_v3_model.load_state_dict(torch.load("classificationMobileNetV3v2.pth", map_location=torch.device('cpu')))
 mobilenet_v3_model.eval()
@@ -61,16 +61,16 @@ def predict_baldness(uploaded_file, model):
 
 # Streamlit UI
 st.title("Bald Classification")
-st.write("Upload an image to predict whether the person in the image is bald or not.")
+st.write("Upload images to predict whether the persons in the images are bald or not.")
 
-# File uploader
-uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
+# File uploader for multiple images
+uploaded_files = st.file_uploader("Choose images...", type=["jpg", "jpeg", "png"], accept_multiple_files=True)
 
 # Model selection dropdown
 selected_model = st.selectbox("Select Model", ["MobileNetV3", "ShuffleNetV2", "RegNetY"])
 
-# Make prediction and display result
-if uploaded_file:
+# Make predictions and display results for each image
+if uploaded_files:
     if selected_model == "MobileNetV3":
         model = mobilenet_v3_model
     elif selected_model == "RegNetY":
@@ -78,18 +78,18 @@ if uploaded_file:
     elif selected_model == "ShuffleNetV2":
         model = shufflenet_v2_model
     
-    processed_images, probabilities = predict_baldness(uploaded_file, model)
-    if processed_images and probabilities:
-        for idx, (image, prediction) in enumerate(zip(processed_images, probabilities)):
-            st.write(f"THE PREDICTION RESULTS")
-            st.image(uploaded_file, caption='Upload Image', width=200)
-            st.image(image, caption='Detected Faces', width=200)
-            face_number = idx + 1
-            bald_probability = prediction
-            not_bald_probability = 1 - prediction
-            prediction_text = f"Prediction for Face {face_number}: {bald_probability:.2f} Bald, {not_bald_probability:.2f} Not Bald"
-            st.write(prediction_text)
-            if bald_probability > 0.5:
-                st.write(f"=> Bald")
-            else:
-                st.write(f"=> Not Bald")
+    for idx, uploaded_file in enumerate(uploaded_files):
+        processed_images, probabilities = predict_baldness(uploaded_file, model)
+        if processed_images and probabilities:
+            for face_number, (image, prediction) in enumerate(zip(processed_images, probabilities)):
+                st.write(f"THE PREDICTION RESULTS for Image {idx + 1}, Face {face_number + 1}")
+                st.image(uploaded_file, caption='Upload Image', width=200)
+                st.image(image, caption='Detected Faces', width=200)
+                bald_probability = prediction
+                not_bald_probability = 1 - prediction
+                prediction_text = f"Prediction: {bald_probability:.2f} Bald, {not_bald_probability:.2f} Not Bald"
+                st.write(prediction_text)
+                if bald_probability > 0.5:
+                    st.write(f"=> Bald")
+                else:
+                    st.write(f"=> Not Bald")
