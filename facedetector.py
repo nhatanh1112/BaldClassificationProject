@@ -18,10 +18,13 @@ class FaceDetector():
             top_margin = max(top - margin[2], 0)
             bottom_margin = min(bottom + margin[3], image.height)
             face_image = image.crop((left_margin, top_margin, right_margin, bottom_margin))
+            
             if resized:
                 element_data = dict()
                 element_data["image"] = face_image.resize((size, size))
                 element_data["width"] = int(right_margin - left_margin)
                 element_data["height"] = int(bottom_margin - top_margin)
-            faces_data.append(element_data)
+                
+                faces_data.append(element_data)  # Append inside the loop
+                
         return faces_data
