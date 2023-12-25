@@ -24,6 +24,41 @@ shufflenet_v2_model.eval()
 # Create an instance of FaceDetector
 face_detector = FaceDetector()
 
+# def predict_baldness(uploaded_file, model):
+#     transform = torchvision.transforms.Compose([
+#         torchvision.transforms.Resize((96, 96)),
+#         torchvision.transforms.ToTensor(),
+#         torchvision.transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5]),
+#     ])
+
+#     # Open the uploaded file as an image
+#     image = Image.open(io.BytesIO(uploaded_file.read())).convert("RGB")
+
+#     # Preprocess the image using FaceDetector class
+#     faces_data = face_detector.detect_face(image, resized=True, size=96, margin=(20, 20, 40, 10))
+
+#     if not faces_data:
+#         st.write("No face detected in the image.")
+#         return
+
+#     predictions = []
+
+#     # Perform prediction for each detected face
+#     for face_data in faces_data:
+#         face_image = transform(face_data["image"]).unsqueeze(0)
+
+#         # Perform prediction
+#         with torch.no_grad():
+#             output = model(face_image)
+
+#         # Get the predicted probabilities for each class
+#         probabilities = torch.softmax(output, dim=1).squeeze().tolist()
+#         predictions.append(probabilities[1])
+
+#         processed_images = [face_data["image"] for face_data in faces_data]
+
+#     return processed_images, predictions
+
 def predict_baldness(uploaded_file, model):
     transform = torchvision.transforms.Compose([
         torchvision.transforms.Resize((96, 96)),
@@ -37,9 +72,10 @@ def predict_baldness(uploaded_file, model):
     # Preprocess the image using FaceDetector class
     faces_data = face_detector.detect_face(image, resized=True, size=96, margin=(20, 20, 40, 10))
 
-    if not faces_data:
-        st.write("No face detected in the image.")
-        return
+    if faces_data is None:
+        # No faces detected, display a message and return
+        st.write("No face detected in the uploaded image.")
+        return None, None
 
     predictions = []
 
@@ -55,9 +91,10 @@ def predict_baldness(uploaded_file, model):
         probabilities = torch.softmax(output, dim=1).squeeze().tolist()
         predictions.append(probabilities[1])
 
-        processed_images = [face_data["image"] for face_data in faces_data]
+    processed_images = [face_data["image"] for face_data in faces_data]
 
     return processed_images, predictions
+
 
 # Streamlit UI
 st.title("Bald Classification")
